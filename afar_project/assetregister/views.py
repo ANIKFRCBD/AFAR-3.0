@@ -17,19 +17,22 @@ def frc_asset_register(request):
     df=df.fillna(0)
     print(df.columns)
     # Generate Asset code by rearranging the dataframe
-    df=df[['Financial Year', 'Purchase date', 'Sl ', 'Bill no','Economic Code',
+    df=df[['Financial Year', 'Purchase date', 'Sl', 'Bill no','Economic Code',
        'Category', 'Name of Item', 'Brand Name', 'Model/Type', 'Units',
        'Modified Number', 'Price','Salvage Value', 'Sold (unit)','Sales proceeds','Years used(sold items)','FY of Items sold',
        'Cost of Assets Sold', 'Current Balance', 'Expected life',
        'Depreciation Method', 'Location']]
     df["Asset Code"]=0
     #Rearrange the dataframe
-    df=df[['Financial Year', 'Purchase date', 'Sl ', 'Bill no','Asset Code','Economic Code',
+    df=df[['Financial Year', 'Purchase date', 'Sl', 'Bill no','Asset Code','Economic Code',
        'Category', 'Name of Item', 'Brand Name', 'Model/Type', 'Units',
        'Modified Number', 'Price','Salvage Value', 'Sold (unit)','Sales proceeds','Years used(sold items)', 'FY of Items sold',
        'Cost of Assets Sold', 'Current Balance', 'Expected life',
        'Depreciation Method', 'Location']]
     # Get the current date
+    #fix the serial format
+    df["Sl"]=df["Sl"].astype(int)
+    df["Sl"]=df["Sl"].astype(str)
     current_date = datetime.now()
 
     # Determine the year based on the month
@@ -50,10 +53,15 @@ def frc_asset_register(request):
         # Ensure the extraction produced the expected number of rows 
         if len(extracted_years) == len(df): 
             # Combine the extracted parts to form the 'Asset Code'
+            print(df["Location"].astype(str).head()) 
+            print(df["Depreciation Method"].astype(str).head()) 
+            print(df["Category"].astype(str).str[:1].head()) 
+            print(df["Financial Year"].astype(str).head()) 
+            print(df["Sl"].astype(str).apply(lambda x: x.zfill(4)))
             df["Asset Code"] = ( "FRC" + "-" + df["Location"].astype(str) + "-" +
                                 df["Depreciation Method"].astype(str) + "-" + df["Category"].astype(str).str[:1] +
                                 "-" + extracted_years[0] + extracted_years[1] + "-" + 
-                                df["Sl "].astype(str).str[:].apply(lambda x: x.zfill(4)) ) 
+                                df["Sl"].astype(str).apply(lambda x: x.zfill(4))) 
         else: 
             raise ValueError("Mismatch in the length of extracted years and the DataFrame.")
         df.fillna('', inplace=True)
@@ -68,6 +76,7 @@ def frc_asset_register(request):
          # Change this to your desired file path
 
         # Convert DataFrame to HTML
+        df.to_excel(file_path,index=False)
         
         excel_html = df.to_html(index=False)
 

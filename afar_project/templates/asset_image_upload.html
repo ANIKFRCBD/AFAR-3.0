@@ -17,18 +17,27 @@
         </div>
         <form method="post" enctype="multipart/form-data" class="bg-white p-6 rounded-lg">
             {% csrf_token %}
-            <div class="mb-4">
+            <div class="mb-4 relative">
                 <label for="asset_code_input" class="block text-gray-700">Asset Code</label>
                 <input 
                     type="text" 
                     id="asset_code_input" 
+                    name="dropdown_asset_code"
                     onkeyup="filterOptions()" 
                     placeholder="Type to filter asset codes..."
                     class="w-full p-2 bg-gray-200 border border-gray-300 rounded-lg mb-2"
+                    autocomplete="off"
+                    aria-expanded="false" 
+                    aria-owns="suggestions_list"
+                    aria-haspopup="listbox"
                 />
-                <ul id="suggestions_list" class="absolute bg-white border border-gray-300 rounded-lg z-50 max-h-60 overflow-auto">
+                <ul id="suggestions_list" 
+                    class="absolute bg-white border border-gray-300 rounded-lg z-50 max-h-60 overflow-auto w-full hidden"
+                    role="listbox">
                     {% for option in asset_code_options %}
-                        <li class="p-2 hover:bg-gray-200 cursor-pointer" onclick="selectOption('{{ option }}')">{{ option }}</li>
+                        <li class="p-2 hover:bg-gray-200 cursor-pointer" role="option" onclick="selectOption('{{ option }}')">
+                            {{ option }}
+                        </li>
                     {% endfor %}
                 </ul>
             </div>
@@ -55,25 +64,37 @@
         function filterOptions() {
             const searchInput = document.getElementById('asset_code_input').value.toLowerCase();
             const suggestionsList = document.getElementById('suggestions_list');
-            suggestionsList.style.display = 'block'; // Temporarily show all suggestions
+            suggestionsList.style.display = 'block'; // Show the dropdown
 
             const options = suggestionsList.children;
+            let hasMatch = false;
+
             for (let i = 0; i < options.length; i++) {
                 const option = options[i];
                 const text = option.innerText.toLowerCase();
-                option.style.display = text.includes(searchInput) ? 'block' : 'none';
+                const isVisible = text.includes(searchInput);
+                option.style.display = isVisible ? 'block' : 'none';
+                if (isVisible) hasMatch = true;
+            }
+
+            if (!hasMatch) {
+                suggestionsList.style.display = 'none'; // Hide if no matches
             }
         }
 
         function selectOption(value) {
-            document.getElementById('asset_code_input').value = value;
-            document.getElementById('suggestions_list').style.display = 'none';
+            const inputField = document.getElementById('asset_code_input');
+            const suggestionsList = document.getElementById('suggestions_list');
+
+            inputField.value = value;
+            suggestionsList.style.display = 'none'; // Hide the dropdown
         }
 
         document.addEventListener('click', function(event) {
             const suggestionsList = document.getElementById('suggestions_list');
-            if (!event.target.closest('#asset_code_input') && !event.target.closest('#suggestions_list')) {
-                suggestionsList.style.display = 'none';
+            const inputField = document.getElementById('asset_code_input');
+            if (!event.target.closest('#suggestions_list') && event.target !== inputField) {
+                suggestionsList.style.display = 'none'; // Hide dropdown when clicking outside
             }
         });
     </script>
