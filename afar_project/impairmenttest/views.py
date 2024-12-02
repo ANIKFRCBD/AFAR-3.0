@@ -107,6 +107,7 @@ def search_entry(request):
     Asset_Code=data
     data_sheet=pd.read_excel(file_path)
     d=data_sheet[data_sheet["Asset Code"] == Asset_Code]
+    print(d)
     return d
 
 # calculate the impairment

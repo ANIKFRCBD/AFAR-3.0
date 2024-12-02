@@ -75,5 +75,5 @@ urlpatterns = [
     path("logo/",logo.institutionname,name="institution"),
     path("logo/signin",logo.sign_in_again,name="signinagain"),
     path("institution_view/",logo.view_institution,name="view_institution"),
-    path("assetinfoupload/",asset_info.upload_files_to_asset_info,name="assetinfofileupload")
+    path("assetinfoupload/",asset_info.upload_files_to_asset_info,name="assetinfofileupload"),
     ]
