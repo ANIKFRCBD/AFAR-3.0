@@ -52,7 +52,24 @@
         <a href="{% url 'dashboard' %}" class="nav-button px-3 py-2 bg-white text-slate-700 rounded-md shadow hover:bg-gray-200">Dashboard</a>
         <a href="{% url 'frc_asset_register' %}" class="nav-button px-3 py-2 bg-white text-slate-700 rounded-md shadow hover:bg-gray-200">Asset Register</a>
         <a href="{% url 'frc_asset_schedule' %}" class="nav-button px-3 py-2 bg-white text-slate-700 rounded-md shadow hover:bg-gray-200">Asset Schedule</a>
-        <a href="{% url 'frc_dep' %}" class="nav-button px-3 py-2 bg-white text-slate-700 rounded-md shadow hover:bg-gray-200">Depreciation</a>
+        <div class="relative inline-block text-left">
+          <!-- Main Accounting Button -->
+          <button type="button" class="nav-button px-3 py-2 bg-white text-slate-700 rounded-md shadow hover:bg-gray-200 focus:outline-none" id="menu-button" aria-expanded="true" aria-haspopup="true">
+            Accounting
+          </button>
+        
+          <!-- Dropdown Menu -->
+          <div class="dropdown-menu origin-top-right absolute right-0 mt-2 flex space-x-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden" id="menu-dropdown">
+            <!-- Depreciation Link -->
+            <a href="{% url 'frc_dep' %}" class="nav-button px-4 py-2 bg-white text-slate-700 rounded-md shadow-md hover:bg-gray-200 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 ease-in-out">
+              Depreciation
+            </a>
+            <!-- Impairment Link -->
+            <a href="{% url 'impairment' %}" class="nav-button px-4 py-2 bg-white text-slate-700 rounded-md shadow-md hover:bg-gray-200 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 ease-in-out">
+              Impairment
+            </a>
+          </div>
+        </div>
         <a href="{% url 'frc_data_entry' %}" class="nav-button px-3 py-2 bg-white text-slate-700 rounded-md shadow hover:bg-gray-200">Data Entry</a>
         <a href="{% url 'asset_info' %}" class="nav-button px-3 py-2 bg-white text-slate-700 rounded-md shadow hover:bg-gray-200">Input Asset Info</a>
         <a href="{% url 'current_asset_info' %}" class="nav-button px-3 py-2 bg-white text-slate-700 rounded-md shadow hover:bg-gray-200">Current Asset Info</a>
@@ -66,5 +83,11 @@
     <div class="main_body pt-5">
       <div class="right"></div>
     </div>
+    <script>
+    document.getElementById('menu-button').addEventListener('click', function () {
+        var dropdown = document.getElementById('menu-dropdown');
+        dropdown.classList.toggle('hidden'); // Toggle dropdown visibility
+    });
+</script>
   </body>
 </html>

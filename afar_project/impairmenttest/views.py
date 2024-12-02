@@ -20,7 +20,7 @@ def imparimenttest(request):
     # no_use=impariement_year_entry(request)
 
     context = {"table":table,
-               "form":form.as_table,
+               "form":form,
                "entry_finder":forms_entryfinder,
                "search":search,
                "file":file}
