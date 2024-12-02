@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Asset Register</title>
+
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+      /* Centered title styling */
+      .title-container {
+        text-align: center;
+        margin: 20px 0;
+      }
+      .title {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333;
+      }
+      /* Container for tables */
+      .table-container {
+        height: 65vh;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        flex-wrap: wrap;
+      }
+      /* Style for the table */
+      .summary-table {
+        width: 100%; /* Ensure table fills the container */
+        background-color: #ffffff;
+        border-collapse: collapse;
+        border-left: 1px double rgb(146, 146, 146);
+        border-bottom: 1px double rgb(146, 146, 146);
+        border-top: 2px double rgb(146, 146, 146);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+        overflow: auto; /* Enable scrolling if content exceeds height */
+        table-layout: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #fcfffb #838282;
+      }
+
+      /* Style for table headers */
+      .summary-table th {
+        padding: 12px;
+        text-align: left;
+        background-color: #f0f0f0;
+        border-bottom: 1px solid #dddddd;
+        min-width: 150px;
+      }
+
+      /* Style for table cells */
+      .summary-table td {
+        padding: 12px;
+        border-bottom: 1px solid #dddddd;
+        white-space: nowrap;
+        overflow: hidden;
+        min-width: 150px;
+      }
+    </style>
+  </head>
+
+  <body>
+    {% include 'header.html' %}
+    
+    <!-- Title Section -->
+    <div class="title-container">
+      <h1 class="title">Asset Register</h1>
+    </div>
+
+    <div>
+      <!-- Filter dropdown -->
+      <div class="flex justify-between mx-3">
+        <select
+          class="text-gray-500 border-2 border-gray-500"
+          id="filterDropdown"
+        >
+          <option value="">Select Financial Year</option>
+          {% for value in unique_values %}
+          <option value="{{ value }}">{{ value }}</option>
+          {% endfor %}
+        </select>
+        <div>
+          <a href="{% url 'delete' %}">
+            <button
+              type="button"
+              class="p-2 bg-white item-center text-gray-500 border-2 border-gray-500"
+            >
+              Delete Entry
+            </button>
+          </a>
+        </div>
+      </div>
+
+      <!-- Display count -->
+      <p class="mx-3 px-1 text-gray-500">
+        Number of entries: <span id="rowCount"></span>
+      </p>
+
+      <div
+        class="container1 table-container overflow-auto mb-10"
+        id="rowsContainer"
+      >
+        <div class="overflow-auto h-full">
+          <table class="summary-table">
+            <thead class="sticky top-0">
+              <tr>
+                {% for col in column_headers %}
+                <th>{{ col }}</th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in rows %}
+              <tr>
+                {% for value in row %} {% if forloop.counter == 5 %}
+                <!-- Add hyperlink for 4th column -->
+                <td>
+                  <a
+                    href="{% url 'data_profile' asset_code_value=value %} "
+                    target="_blank"
+                    >{{ value }}</a
+                  >
+                </td>
+                {% else %}
+                <td>{{ value }}</td>
+                {% endif %} {% endfor %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    {% include 'footer.html' %}
+
+    <script>
+      function download_csv_frc_asset() {
+        document.getElementById("download_csv_frc_asset").action =
+          "{% url 'download_csv_frc_asset' %}";
+        document.getElementById("download_csv_frc_asset").submit();
+      }
+    </script>
+
+    <script>
+      function delete_rows_asset_register() {
+        var confirmDelete = confirm(
+          "Are you sure you want to delete the excel file?"
+        );
+        if (!confirmDelete) {
+          return;
+        }
+
+        document.getElementById("delete_rows_asset_register").action =
+          "{% url 'delete_rows_asset_register' %}";
+        document.getElementById("delete_rows_asset_register").submit();
+      }
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        function updateRowCount() {
+          var selectedValue = $("#filterDropdown").val();
+          var rowCount = $("#rowsContainer table tbody tr").filter(function () {
+            var rowValue = $(this).find("td:first").text();
+            return rowValue === selectedValue || selectedValue === "";
+          }).length;
+          $("#rowCount").text(rowCount);
+        }
+
+        $("#filterDropdown").on("change", function () {
+          $("#rowsContainer table tbody tr").hide();
+          var selectedValue = $(this).val();
+
+          $("#rowsContainer table tbody tr")
+            .filter(function () {
+              var rowValue = $(this).find("td:first").text();
+              return rowValue === selectedValue || selectedValue === "";
+            })
+            .show();
+
+          updateRowCount();
+        });
+
+        updateRowCount();
+      });
+    </script>
+
+    <script>
+      function setMaxHeight() {
+        var screenWidth = window.innerWidth;
+        var maxHeight;
+        if (screenWidth <= 1200) {
+          maxHeight = screenWidth * 0.9;
+        } else {
+          maxHeight = screenWidth * 0.35;
+        }
+        document.getElementById("rowsContainer").style.maxHeight =
+          maxHeight + "px";
+      }
+      window.onload = setMaxHeight;
+      window.onresize = setMaxHeight;
+    </script>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      $(document).ready(function () {
+        $("table tbody tr").click(function () {
+          var rowData = $(this)
+            .find("td:eq(4)")
+            .map(function () {
+              return $(this).text();
+            })
+            .get();
+          var url = "/frc_asset_data?id=" + encodeURIComponent(rowData);
+          $("table tbody tr").removeClass("highlight");
+          $(this).addClass("highlight");
+        });
+      });
+    </script>
+  </body>
+</html>

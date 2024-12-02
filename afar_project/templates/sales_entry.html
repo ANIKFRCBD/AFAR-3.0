@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+    <!-- Css -->
+    <!-- <link rel="stylesheet" href="../static/css/index.css"> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <title>Sales Entry</title>
+  </head>
+  <style>
+    .form-group {
+      margin-bottom: 1rem;
+      margin-left: 5rem;
+      margin-right: 5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      color: rgb(107 114 128); /* text-gray-700 */
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input {
+      display: block;
+      width: 100%;
+      color: #000000; /* text-gray-700 */
+      background-color: #ffffff; /* bg-gray-200 */
+      border: 1px solid #d2d6dc; /* border-gray-300 */
+      border-radius: 0.5rem; /* rounded-lg */
+      padding: 0.5rem;
+    }
+  </style>
+
+  <body>
+    {% include 'header.html' %}
+
+      <div
+        class="bg-gray-100 p-4 rounded-lg shadow-md border-2 border-gray-500"
+      >
+        <div class="flex justify-center item-center mx-2 mt-2">
+          <h1 class="text-gray-500 text-2xl">Sales Information</h1>
+        </div>
+        <form action="{% url 'sales_entry' %}" method="post">
+          <div class="form-group">{% csrf_token %} {{form}}</div>
+
+          <div class="flex justify-center">
+            <input
+              class="block w-6/12 bg-white text-gray-500 py-2 px-10 rounded border-2 border-gray-500 shadow hover:bg-gray-500 hover:text-white"
+              type="Submit"
+              value="Submit"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- table -->
+    <div class="header">
+      <p class="" style="font-size: 0.5cm; font-weight: 500; color: #fff">
+        <b
+          class="p-2 shadow"
+          style="border-radius: 5px; background-color: #55608f"
+          >Entries</b
+        >
+      </p>
+    </div>
+    <div class="container1" id="rowsContainer">{{search|safe}}</div>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script> -->
+    <script>
+      $(document).ready(function () {
+        // Add click event listener to each table row
+        $("table tbody tr").click(function () {
+          // Remove any previously highlighted rows
+          console.log("clicked");
+          $("table tbody tr").removeClass("highlight");
+
+          // Add highlight class to the clicked row
+          $(this).addClass("highlight");
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <title>FRC System</title>
+  </head>
+
+  <body>
+    {% include 'header.html' %}
+
+    <div class="border-2 border-gray-500 rounded-lg m-40 py-16 shadow-md">
+      <div class="flex justify-center text-gray-500">
+        <h2 class="text-2xl pb-4 font-semibold">File Upload</h2>
+      </div>
+      <div class="flex justify-center items-center space-x-8">
+        <!-- Form to Add New Column -->
+        <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+          <form
+            id="file_upload_frc"
+            action="{% url 'frc_system' %}"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            {% csrf_token %}
+            <input
+              class="block w-full text-gray-700 bg-gray-200 border border-gray-300 rounded-lg p-2 mb-4"
+              type="file"
+              name="file"
+              accept=".xlsx"
+            />
+
+            <div class="mt-4">
+              <input
+                type="submit"
+                value="Upload Excel File"
+                class="w-full bg-white rounded-lg text-gray-500 py-2 px-10 border-2 border-gray-500 hover:bg-gray-500 hover:text-white"
+              />
+            </div>
+          </form>
+        </div>
+
+        <!-- Form to Merge Files -->
+        <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+          <form
+            id="merge_files_frc"
+            action="{% url 'merge_files' %}"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            {% csrf_token %}
+            <input
+              class="block w-full text-gray-700 bg-gray-200 border border-gray-300 rounded-lg p-2 mb-4"
+              type="file"
+              name="file_to_merge"
+              accept=".xlsx"
+            />
+            <div class="mt-4">
+              <input
+                type="submit"
+                value="Merge with Existing File"
+                class="w-full bg-white rounded-lg text-gray-500 py-2 px-10 border-2 border-gray-500 hover:bg-gray-500 hover:text-white"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% include 'footer.html' %}
+
+    <script>
+      function file_upload_frc_fun() {
+        document.getElementById("file_upload_frc").action =
+          "{% url 'file_upload_pre' %}";
+        document.getElementById("file_upload_frc").submit();
+      }
+    </script>
+    <script>
+      function file_upload_frc_fun() {
+        document.getElementById("merge_files_frc").action =
+          "{% url 'merge_files' %}";
+        document.getElementById("merge_files_frc").submit();
+      }
+    </script>
+  </body>
+</html>

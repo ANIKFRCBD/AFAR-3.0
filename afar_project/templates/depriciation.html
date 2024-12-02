@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Depreciation Schedule</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dddddd;
+            min-width: 150px;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        td {
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .table-container {
+            height: 65vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  {% include 'header.html' %}
+  
+  <div class="container mx-auto px-4">
+    <div class="flex justify-between my-4">
+      <div>
+        <!-- Filter dropdown -->
+        <select id="filterDropdown" class="border-2 border-gray-500 text-gray-500 p-2 rounded">
+          <option value="">Select Financial Year</option>
+          {% for value in unique_rows_filter %}
+              <option>{{ value }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <!-- Download button -->
+        <form method="post" action="" id="download_csv_dep" class="inline-block">
+          {% csrf_token %}
+          <button type="button" onclick="download_csv_dep()" class="bg-blue-500 text-white p-2 rounded shadow">
+            Download CSV
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Table Container -->
+    <div class="table-container overflow-auto shadow-lg bg-white">
+        <table class="w-full">
+          <thead class="sticky top-0">
+            <tr>
+              {% for header in data.0 %}
+                <th>{{ header }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for sublist in data|slice:"1:" %}
+              <tr>
+                {% for value in sublist %}
+                  <td>{{ value }}</td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>        
+    </div>
+  </div>
+
+  <script>
+    function download_csv_dep() {
+        document.getElementById("download_csv_dep").action = "{% url 'download_csv_dep' %}";
+        document.getElementById("download_csv_dep").submit();
+    }
+
+    // Filter the table based on the selected year
+    document.getElementById('filterDropdown').addEventListener('change', function() {
+        var selectedValue = this.value;
+        var table = document.getElementById('dataTable');
+        var rows = table.getElementsByTagName('tr');
+        
+        for (var i = 1; i < rows.length; i++) {
+            var currentRow = rows[i];
+            var cells = currentRow.getElementsByTagName('td');
+            var cellValue = cells[0].innerText || cells[0].textContent; // Filter based on the first column
+            
+            if (selectedValue === '' || cellValue === selectedValue) {
+                currentRow.style.display = '';
+            } else {
+                currentRow.style.display = 'none';
+            }
+        }
+    });
+  </script>
+
+</body>
+</html>

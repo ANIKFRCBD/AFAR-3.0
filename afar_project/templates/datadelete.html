@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Remove Entry</title>
+
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6; /* Light background for contrast */
+            font-family: Arial, sans-serif; /* Improve font style */
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9); /* Light background for input area */
+            color: #333; /* Dark text color for readability */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 500px; /* Limit width for better layout */
+            margin: 50px auto; /* Centering the container */
+        }
+
+        h3 {
+            text-align: center;
+            color: #1e3a8a; /* Dark blue color */
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .header .delete-title {
+            background-color: #1e40af; /* Darker blue for contrast */
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+        }
+
+        label {
+            margin-bottom: 0.5rem;
+            display: block;
+            font-weight: bold;
+            color: #1e3a8a; /* Dark blue for labels */
+        }
+
+        input[type="text"] {
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 0.5rem;
+            width: 100%;
+            transition: border-color 0.3s;
+            background-color: #f9fafb; /* Light gray for input background */
+        }
+
+        input[type="text"]:focus {
+            border-color: #1e40af; /* Change border color on focus */
+            outline: none; /* Remove outline */
+            background-color: #ffffff; /* White background on focus */
+        }
+
+        .btn {
+            background-color: #1e40af; /* Dark blue button */
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 1rem; /* Add space above button */
+        }
+
+        .btn:hover {
+            background-color: #1e3a8a; /* Darker blue on hover */
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'header.html' %}
+    <div class="container">
+        <div class="header">
+            <p>
+                <b class="delete-title">Dereconition by Removal </b>
+            </p>
+            <br/>
+        </div>
+        <form action="{% url 'datainit' %}" method="POST">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="asset_code">Asset Code</label>
+                <input type="text" id="asset_code" name="asset_code" class="form-control" required>
+            </div>
+            <div class="mb-4">
+                <input type="submit" value="Submit" class="btn px-5 shadow">
+            </div>
+        </form>
+    </div>
+    <br>
+    {% include "footer.html" %}
+</body>
+
+</html>
