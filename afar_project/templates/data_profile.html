@@ -41,7 +41,7 @@
             position: relative;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             height: 100vh; /* Maintain full height */
             padding: 0; /* Remove padding */
@@ -55,7 +55,7 @@
             width: 100%;
             max-width: 1200px;
             overflow-y: auto;
-            max-height: 80vh;
+            max-height: 95vh; /* Increase height to take more screen space */
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
 
@@ -156,7 +156,7 @@
                 <p>{{ error_message }}</p>
             </div>
             {% else %}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12">
                 <div class="info-card text-center">
                     <p class="section-title">Snap</p>
                     {% load static %}
@@ -172,42 +172,51 @@
                     <a href="{% static image_path_qr %}" download="QR_Code.png" class="download-button inline-block mt-4">Download QR</a>
                 </div>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-8">
                 <div class="info-card">
-                    <div class="section-title">Basic Information</div>
-                    <div class="info-item"><strong>Financial Year:</strong> {{ value_1 }}</div>
-                    <div class="info-item"><strong>Purchase date:</strong> {{ value_2 }}</div>
-                    <div class="info-item"><strong>Serial No:</strong> {{ value_3 }}</div>
-                    <div class="info-item"><strong>Bill no:</strong> {{ value_4 }}</div>
+                    <h2 class="text-lg font-bold text-gray-700 mb-4">General Information</h2>
+                    <p class="info-item"><strong>Financial Year:</strong> {{ value_1 }}</p>
+                    <p class="info-item"><strong>Purchase Date:</strong> {{ value_2 }}</p>
+                    <p class="info-item"><strong>Serial No:</strong> {{ value_3 }}</p>
+                    <p class="info-item"><strong>Bill No:</strong> {{ value_4 }}</p>
+                    <p class="info-item"><strong>Asset Code:</strong> {{ value_5 }}</p>
                 </div>
+                <!-- Asset Details -->
                 <div class="info-card">
-                    <div class="section-title">Asset Details</div>
-                    <div class="info-item"><strong>Asset Code:</strong> {{ value_5 }}</div>
-                    <div class="info-item"><strong>Economic Code:</strong> {{ value_6 }}</div>
-                    <div class="info-item"><strong>Category:</strong> {{ value_7 }}</div>
-                    <div class="info-item"><strong>Name of Item:</strong> {{ value_8 }}</div>
-                    <div class="info-item"><strong>Brand Name:</strong> {{ value_9 }}</div>
-                    <div class="info-item"><strong>Model/Type:</strong> {{ value_10 }}</div>
-                    <div class="info-item"><strong>Units:</strong> {{ value_11 }}</div>
-                    <div class="info-item"><strong>Modified Number:</strong> {{ value_12 }}</div>
+                    <h2 class="text-lg font-bold text-gray-700 mb-4">Asset Details</h2>
+                    <p class="info-item"><strong>Economic Code:</strong> {{ value_6 }}</p>
+                    <p class="info-item"><strong>Category:</strong> {{ value_7 }}</p>
+                    <p class="info-item"><strong>Name of Item:</strong> {{ value_8 }}</p>
+                    <p class="info-item"><strong>Brand Name:</strong> {{ value_9 }}</p>
+                    <p class="info-item"><strong>Model/Type:</strong> {{ value_10 }}</p>
+                    <p class="info-item"><strong>Units:</strong> {{ value_11 }}</p>
+                    <p class="info-item"><strong>Modified Number:</strong> {{ value_12 }}</p>
                 </div>
+                <!-- Financial Details -->
                 <div class="info-card">
-                    <div class="section-title">Financial Information</div>
-                    <div class="info-item"><strong>Price:</strong> {{ value_13 }}</div>
-                    <div class="info-item"><strong>Salvage Value:</strong> {{ value_14 }}</div>
-                    <div class="info-item"><strong>Sold (unit):</strong> {{ value_15 }}</div>
-                    <div class="info-item"><strong>Sales proceeds:</strong> {{ value_16 }}</div>
-                    <div class="info-item"><strong>Years used (sold items):</strong> {{ value_17 }}</div>
-                    <div class="info-item"><strong>FY of Items sold:</strong> {{ value_18 }}</div>
-                    <div class="info-item"><strong>Cost of Assets Sold:</strong> {{ value_19 }}</div>
-                    <div class="info-item"><strong>Current Balance:</strong> {{ value_20 }}</div>
+                    <h2 class="text-lg font-bold text-gray-700 mb-4">Financial Details</h2>
+                    <p class="info-item"><strong>Price:</strong> {{ value_13 }}</p>
+                    <p class="info-item"><strong>Salvage Value:</strong> {{ value_14 }}</p>
+                    <p class="info-item"><strong>Sold (Unit):</strong> {{ value_17 }}</p>
+                    <p class="info-item"><strong>Sales Proceeds:</strong> {{ value_18 }}</p>
+                    <p class="info-item"><strong>Years Used (Sold Items):</strong> {{ value_19 }}</p>
+                    <p class="info-item"><strong>FY of Items Sold:</strong> {{ value_20 }}</p>
+                    <p class="info-item"><strong>Cost of Assets Sold:</strong> {{ value_21 }}</p>
+                    <p class="info-item"><strong>Current Balance:</strong> {{ value_22 }}</p>
                 </div>
+                <!-- Depreciation & Location -->
                 <div class="info-card">
-                    <div class="section-title">Depreciation & Location</div>
-                    <div class="info-item"><strong>Expected life:</strong> {{ value_21 }}</div>
-                    <div class="info-item"><strong>Depreciation Method:</strong> {{ value_22 }}</div>
-                    <div class="info-item"><strong>Location:</strong> {{ value_23 }}</div>
-                    <div class="info-item"><strong>Custodian:</strong> {{ value_24 }}</div>
+                    <h2 class="text-lg font-bold text-gray-700 mb-4">Depreciation & Location</h2>
+                    <p class="info-item"><strong>Expected Life:</strong> {{ value_23 }}</p>
+                    <p class="info-item"><strong>Depreciation Method:</strong> {{ value_24 }}</p>
+                    <p class="info-item"><strong>Location:</strong> {{ value_25 }}</p>
+                </div>
+                <!-- Vendor Information -->
+                <div class="info-card">
+                    <h2 class="text-lg font-bold text-gray-700 mb-4">Vendor Information</h2>
+                    <p class="info-item"><strong>Vendor:</strong> {{ value_15 }}</p>
+                    <p class="info-item"><strong>Vendor Address:</strong> {{ value_16 }}</p>
+                    <p class="info-item"><strong>Vendor Contact:</strong> {{ value_17 }}</p>
                 </div>
             </div>
             {% endif %}

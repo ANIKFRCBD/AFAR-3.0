@@ -20,19 +20,22 @@ def frc_asset_register(request):
     df=df[['Financial Year', 'Purchase date', 'Sl', 'Bill no','Economic Code',
        'Category', 'Name of Item', 'Brand Name', 'Model/Type', 'Units',
        'Modified Number', 'Price','Salvage Value', 'Sold (unit)','Sales proceeds','Years used(sold items)','FY of Items sold',
-       'Cost of Assets Sold', 'Current Balance', 'Expected life',
+       'Cost of Assets Sold', 'Current Balance',"Vendor","Vendor Address","Vendor Contact", 'Expected life',
        'Depreciation Method', 'Location']]
     df["Asset Code"]=0
     #Rearrange the dataframe
     df=df[['Financial Year', 'Purchase date', 'Sl', 'Bill no','Asset Code','Economic Code',
        'Category', 'Name of Item', 'Brand Name', 'Model/Type', 'Units',
-       'Modified Number', 'Price','Salvage Value', 'Sold (unit)','Sales proceeds','Years used(sold items)', 'FY of Items sold',
+       'Modified Number', 'Price','Salvage Value',"Vendor","Vendor Address","Vendor Contact", 'Sold (unit)','Sales proceeds','Years used(sold items)', 'FY of Items sold',
        'Cost of Assets Sold', 'Current Balance', 'Expected life',
        'Depreciation Method', 'Location']]
     # Get the current date
     #fix the serial format
+    df["Economic Code"]=df["Economic Code"].astype(int)
+    df["Economic Code"]=df["Economic Code"].astype(str)
     df["Sl"]=df["Sl"].astype(int)
     df["Sl"]=df["Sl"].astype(str)
+    #enter the vendor details
     current_date = datetime.now()
 
     # Determine the year based on the month

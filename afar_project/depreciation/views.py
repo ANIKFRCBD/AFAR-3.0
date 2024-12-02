@@ -23,7 +23,7 @@ def dep_sheet_maker(request):
     df = pd.read_excel(file_path)
     pd.set_option('display.float_format', '{:.1f}'.format)
     # data extraction and cleaning
-    df=df[['Financial Year','Asset Code','Purchase date','Sl ','Bill no','Economic Code',
+    df=df[['Financial Year','Asset Code','Purchase date','Sl','Bill no','Economic Code',
            'Category','Name of Item','Brand Name','Model/Type','Units','Modified Number','Price','Salvage Value',
            'Expected life','Sold (unit)','Years used(sold items)','FY of Items sold',
            'Cost of Assets Sold','Current Balance']]
