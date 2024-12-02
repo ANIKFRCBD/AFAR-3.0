@@ -9,8 +9,8 @@ Dep_file_path='csv_path/excel_files/depreciation.xlsx'
 
 def dep(request):
     #call functions
-    dep_sheet,colums_to_add,year_data=dep_sheet_maker(request)
-    data_sheet_updated=depreciation_calculation(request)
+    dep_sheet,colums_to_add,year_data=dep_sheet_maker()
+    data_sheet_updated=depreciation_calculation()
     #peocess the html
     dep_data=dep_sheet #for Depreciation calculation
     # html=data_sheet_updated.to_html(index=False) # for html template
@@ -19,7 +19,7 @@ def dep(request):
     data_sheet_updated.to_excel(Dep_file_path,index=False)
     return render(request, 'frc_dep.html', {'header_html': header_html,"rows_html":rows_html})
 # Create your views here.
-def dep_sheet_maker(request):
+def dep_sheet_maker():
     df = pd.read_excel(file_path)
     pd.set_option('display.float_format', '{:.1f}'.format)
     # data extraction and cleaning
@@ -91,9 +91,9 @@ def dep_sheet_maker(request):
     return df,columns_to_add,year_data
 
 #Calculation of Depreciation
-def depreciation_calculation(request):
+def depreciation_calculation():
     # Generate the depreciation sheet and necessary columns
-    data_sheet, columns_to_add, year_data = dep_sheet_maker(request)
+    data_sheet, columns_to_add, year_data = dep_sheet_maker()
     data_sheet = data_sheet.fillna(0)  # Fill NaN values early to prevent issues
     
     # Identify the columns to iterate over (year-based columns)
@@ -112,8 +112,8 @@ def depreciation_calculation(request):
         rate_of_depreciation = float(row["Rate of Depreciation"])
         
         for column in data_sheet.columns[total_columns - iteration_from_last:]:
-            financial_year = float(row["Financial Year"][:4])
-            current_column_year = float(str(column[:4]))
+            financial_year = float(str(row["Financial Year"])[:4])
+            current_column_year = float(str(column)[:4])
 
             # Calculate depreciation for current year
             if financial_year <= current_column_year and year_elapsed <= row["Expected life"]:
