@@ -14,9 +14,9 @@ from django.conf import settings
 from django.contrib import messages
 
 form_inputs = []
-
+file_path="csv_path/excel_files/asset_register.xlsx"
 # Read the Excel file
-df = pd.read_csv('csv_path/my_data.csv')
+df = pd.read_excel(file_path)
 
 def extract_numbers(string_data):
     # Use regular expression to find standalone numeric values in the string
@@ -1099,7 +1099,7 @@ def file_upload(request):
     
     return render(request, "file_upload.html")
 
-df = pd.read_csv('csv_path/asset_schedule.csv')
+df = pd.read_excel('csv_path/excel_files/asset_schedule.xlsx')
 
 def data_entry_pre(request):
     column_names = get_column_names_for_extra_input('csv_path/my_data.csv')
@@ -1470,7 +1470,7 @@ def download_csv(request):
 
 def download_csv_frc_asset(request):
     # Path to your existing CSV file
-    file_path = os.path.join(settings.BASE_DIR, 'csv_path/sample/asset_register.xlsx')
+    file_path = os.path.join(settings.BASE_DIR, 'csv_path/excel_files/asset_register.xlsx')
 
     with open(file_path, 'rb') as file:
         response = HttpResponse(file.read(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')

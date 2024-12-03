@@ -27,12 +27,7 @@ def frc_system(request):
 
             # Read the uploaded Excel file
             uploaded_df = pd.read_excel(uploaded_file)
-
-            if len(existing_df['Financial Year']) > len(uploaded_df['Financial Year']):
-                file = existing_df
-            else:
-                file = uploaded_df
-
+            file=uploaded_df
             # Write the concatenated DataFrame to a new Excel file
             file_path = 'csv_path/excel_files/asset_register.xlsx'
             file.to_excel(file_path, index=False)
