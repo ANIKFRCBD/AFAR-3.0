@@ -60,6 +60,34 @@
         border-bottom: 1px solid #dddddd;
         min-width: 150px;
       }
+          button.btn-primary {
+      background-color: #062d18; /* Professional blue background */
+      color: white; /* White text */
+      border: none; /* Remove borders */
+      padding: 12px 24px; /* Adjusted padding for rectangular shape */
+      font-size: 18px; /* Balanced font size */
+      border-radius: 6px; /* Slightly rounded corners for a polished look */
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* 3D-like shadow */
+      cursor: pointer; /* Pointer cursor on hover */
+      position: fixed; /* Fixed position */
+      bottom: 30px; /* Position from bottom */
+      right: 30px; /* Position from right */
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transitions */
+    }
+
+    button.btn-primary:hover {
+      background-color: #0056b3; /* Darker blue on hover */
+      transform: translateY(-3px); /* Lift effect */
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+    }
+
+    button.btn-primary:active {
+      background-color: #004085; /* Even darker blue on click */
+      transform: translateY(2px); /* Pressed-down effect */
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25); /* Reduced shadow on click */
+    }
+
+
 
       /* Style for table cells */
       .summary-table td {
@@ -79,7 +107,15 @@
     <div class="title-container">
       <h1 class="title">Asset Register</h1>
     </div>
-
+    <div>
+      <form id="download_csv_frc_asset" method="POST">
+        {% csrf_token %}
+        <button type="button" onclick="download_csv_frc_asset()" class="btn btn-primary">
+          Download Asset Register
+        </button>
+      </form>
+      
+    </div>
     <div>
       <!-- Filter dropdown -->
       <div class="flex justify-between mx-3">

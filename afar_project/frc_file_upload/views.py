@@ -13,6 +13,7 @@ import os
 from django.conf import settings
 from django.contrib import messages
 
+file_path="csv_path/excel_files/asset_register.xlsx"
 
 def frc_system(request):
     if request.method == 'POST':
@@ -62,4 +63,20 @@ def merge_files(request):
 
             return redirect('frc_asset_register')  # Redirect to appropriate view after merge
 
-    return render(request, "frc_system.html") 
+    return render(request, 'frc_system') 
+
+def format_maker():
+    df=pd.read_excel(file_path)
+    df=df.drop(df.index,inplace=True)
+    df.to_excel(csv_path/excel_files/asset_register_format.xlsx)
+    return None
+
+
+def download_format(request):
+    file_path = os.path.join(settings.BASE_DIR, 'csv_path/sample/asset_register_format.xlsx')
+
+    with open(file_path, 'rb') as file:
+        response = HttpResponse(file.read(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=output_depreciation.xlsx'
+
+    return response
