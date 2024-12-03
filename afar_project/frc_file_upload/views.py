@@ -4,7 +4,7 @@ import datetime
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from afar_app.models import input_field
-from afar_app.models import model_asset_info
+from assetinfo.models import model_asset_info
 import pandas as pd
 import numpy as np
 from datetime import datetime

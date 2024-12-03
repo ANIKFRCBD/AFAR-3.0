@@ -8,15 +8,14 @@ def asset_info(request):
         category = request.POST.get('category')
         code = request.POST.get('code')
         economicCode = request.POST.get('economicCode')
-        expectedLifePre = request.POST.get('expectedLifePre')
-        expectedLifePost = request.POST.get('expectedLifePost')
+        expectedLife = request.POST.get('expectedLife')
         depreciationMethod = request.POST.get('depreciationMethod')
         asset_form_inputs_loop = []
         for field_name, field_value in request.POST.items():
             if field_name != 'csrfmiddlewaretoken':
                 asset_form_inputs_loop.append(field_value)
 
-        asset_input_field = model_asset_info(category=category, code=code,economic_code = economicCode,expected_life_pre = expectedLifePre, expected_life_post = expectedLifePost,depreciation_method = depreciationMethod)
+        asset_input_field = model_asset_info(category=category, code=code,economic_code = economicCode,expected_life = expectedLife,depreciation_method = depreciationMethod)
         asset_input_field.save()
 
         
@@ -32,7 +31,7 @@ def asset_info(request):
         df = pd.concat([df, new_row], ignore_index=True)
         
         # Write the updated DataFrame to the CSV file
-        df.to_csv(csv_file_path, index=False)
+        df.to_excel(csv_file_path, index=False)
 
     return render(request, "asset_info.html")
 def current_asset_info(request):
