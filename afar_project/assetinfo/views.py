@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import model_asset_info
 import pandas as pd
-file_path="csv_path/asset_info/asset_info.csv"
+file_path="csv_path/asset_info/asset_info.xlsx"
 # Create your views here.
 def asset_info(request):
     if request.method == "POST":
@@ -20,10 +20,10 @@ def asset_info(request):
         asset_input_field.save()
 
         
-        csv_file_path = 'csv_path/asset_info/asset_info.csv'
+        csv_file_path = 'csv_path/asset_info/asset_info.xlsx'
         
         # Read existing CSV file into DataFrame
-        df = pd.read_csv(csv_file_path)
+        df = pd.read_excel(csv_file_path)
         
         # Create a new DataFrame with user input as a row
         new_row = pd.DataFrame([asset_form_inputs_loop], columns=df.columns)
@@ -36,7 +36,7 @@ def asset_info(request):
 
     return render(request, "asset_info.html")
 def current_asset_info(request):
-    df = pd.read_csv('csv_path/asset_info/asset_info.csv')
+    df = pd.read_excel('csv_path/asset_info/asset_info.xlsx')
 
     header = df.columns.tolist()
     rows = df.values.tolist()

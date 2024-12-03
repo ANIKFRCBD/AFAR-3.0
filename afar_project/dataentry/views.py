@@ -5,12 +5,12 @@ from django.contrib.auth.models import User as users
 from datetime import datetime
 # Create your views here.
 def frc_data_entry(request):
-    csv_file_path = 'csv_path/asset_info/asset_info.csv'
-    df = pd.read_csv(csv_file_path)
+    csv_file_path = 'csv_path/asset_info/asset_info.xlsx'
+    df = pd.read_excel(csv_file_path)
     user_list=users.objects.all()
     current_user=request.user.username
     print(current_user)
-    df_csv = pd.read_csv('csv_path/asset_info/asset_info.csv')
+    df_csv = pd.read_excel(csv_file_path)
 
     # Extract values from the first column
     dropdown_categories = df.iloc[:, 0].tolist()
