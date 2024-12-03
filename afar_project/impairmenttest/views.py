@@ -11,18 +11,21 @@ file_path_register="csv_path/excel_files/asset_register.xlsx"
 file_path_depreciation="csv_path/excel_files/depreciation.xlsx"
 #Show the impairment page
 def imparimenttest(request):
+    asset_codes_recovered=pd.read_excel(file_path_register)
+    assetcode=asset_codes_recovered[["Asset Code"]]
     table = impairment(request)
     file=accounting_for_recoverable_amount(request)
     form,data=impairment_data_request_and_save(request)  
     search=search_entry(request)
     search=search.fillna(" ").to_html(index=False)
     forms_entryfinder,data=entry_finder(request)
+    asset_code=assetcode[["Asset Code"]]
     # no_use=impariement_year_entry(request)
-
     context = {"table":table,
                "form":form,
                "entry_finder":forms_entryfinder,
                "search":search,
+               "asset_code":asset_code["Asset Code"].tolist(),
                "file":file}
     return render (request,"impairment.html",context)
 
@@ -107,7 +110,7 @@ def search_entry(request):
     Asset_Code=data
     data_sheet=pd.read_excel(file_path)
     d=data_sheet[data_sheet["Asset Code"] == Asset_Code]
-    print(d)
+    print("the dataframe is:",d)
     return d
 
 # calculate the impairment
