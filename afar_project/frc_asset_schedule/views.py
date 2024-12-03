@@ -79,17 +79,11 @@ def frc_asset_schedule(request):
                         sum_seventh_element_new = sum_seventh_element_new + float(taka)
                     else :
                         sum_seventh_element_post = sum_seventh_element_post + float(taka)
-            if(row_info.iloc[4] > 0):
-                post_rate = 1 / float(row_info.iloc[4])
-                depriciation_post = round(post_rate * sum_seventh_element_post,2)
-                post_rate_percentage = "{:.2f}%".format(post_rate * 100)
-
-            if(row_info.iloc[3] > 0):
-                pre_rate = 1 / float(row_info.iloc[3])
+            if(pd.to_numeric(row_info.iloc[3]) > 0):
+                pre_rate = 1 / pd.to_numeric(row_info.iloc[3])
                 depriciation_pre = round(pre_rate * sum_seventh_element_pre,2)
                 pre_rate_percentage = "{:.2f}%".format(pre_rate * 100)
-
-            depriciation_charges = round(depriciation_pre + depriciation_post + sum_seventh_element_new,2)
+            depriciation_charges = round(depriciation_pre+ sum_seventh_element_new,2)
 
             imp_charges = 0
             acc_imp = 0
@@ -109,7 +103,7 @@ def frc_asset_schedule(request):
                 total = round(opening_balance + purchase_during_the_period,2)
                 net_balance = total - cost_of_asset_sold
                 wdv = net_balance - net_acc_dep - acc_imp
-                new_row = [row_info.iloc[2], row_info.iloc[0], round(opening_balance,2), purchase_during_the_period,total,round(cost_of_asset_sold,2),round(net_balance,2),post_rate_percentage, round(opening_acc_dep,2),round(dep_charges,2),round(acc_dep_sold_items,2),round(net_acc_dep,2),round(imp_charges,2),round(acc_imp,2),round(wdv,2)," "]
+                new_row = [row_info.iloc[2], row_info.iloc[0], round(opening_balance,2), purchase_during_the_period,total,round(cost_of_asset_sold,2),round(net_balance,2),pre_rate_percentage, round(opening_acc_dep,2),round(dep_charges,2),round(acc_dep_sold_items,2),round(net_acc_dep,2),round(imp_charges,2),round(acc_imp,2),round(wdv,2)," "]
                 result_rows.append(new_row)
         
         # Convert the list of rows into a DataFrame
