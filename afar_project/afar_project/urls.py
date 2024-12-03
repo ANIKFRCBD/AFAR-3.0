@@ -76,5 +76,6 @@ urlpatterns = [
     path("logo/signin",logo.sign_in_again,name="signinagain"),
     path("institution_view/",logo.view_institution,name="view_institution"),
     path("assetinfoupload/",asset_info.upload_files_to_asset_info,name="assetinfofileupload"),
-    path("formatdownload/", frc_file_upload.download_format,name="formatdownload")
+    path("formatdownload/", frc_file_upload.download_format,name="formatdownload"),
+    path("scheduledownload/", frc_asset_schedule.download_asset_schedule,name="scheduledownload")
     ]

@@ -1,7 +1,9 @@
 from django.shortcuts import render
 import pandas as pd
 import re
-
+from django.http import HttpResponse
+import os 
+from django.conf import settings
 def extract_numbers(string_data):
     # Use regular expression to find standalone numeric values in the string
     if type(string_data) == str:
@@ -25,7 +27,7 @@ def frc_asset_schedule(request):
     rows = []
     if len_csv > 0:
     # Read the CSV files into dataframes, skipping the header row
-        df_asset_info = pd.read_excel('csv_path/excel_files/frc_asset_info.xlsx', header=None, skiprows = 1)
+        df_asset_info = pd.read_excel('csv_path/asset_info/asset_info.xlsx', header=None, skiprows = 1)
         df_asset_register = pd.read_excel('csv_path/excel_files/asset_register.xlsx', header=None, skiprows=1)
         df_depreciation = pd.read_excel('csv_path/excel_files/depreciation.xlsx', header=None, skiprows=1)
         df_imp = pd.read_excel('csv_path/excel_files/Impairment_data.xlsx', header=None, skiprows=1)
@@ -114,11 +116,21 @@ def frc_asset_schedule(request):
         result_df = pd.DataFrame(result_rows)
 
         # Write the DataFrame to a new CSV file
-        result_df.to_excel('csv_path/excel_files/frc_asset_schedule.xlsx', index=False, header=False)
+        result_df.to_excel('csv_path/excel_files/asset_schedule.xlsx', index=False, header=False)
 
-        df_asset_schedule = pd.read_excel('csv_path/excel_files/frc_asset_schedule.xlsx')
+        df_asset_schedule = pd.read_excel('csv_path/excel_files/asset_schedule.xlsx')
 
         # page_header = df_asset_schedule.columns.tolist()
         rows = df_asset_schedule.values.tolist()
 
     return render(request, "frc_asset_schedule.html", {'page_header':page_header, 'rows': rows})
+
+
+def download_asset_schedule(request): 
+    file_path = os.path.join(settings.BASE_DIR, 'csv_path/excel_files/asset_schedule.xlsx')
+
+    with open(file_path, 'rb') as file:
+            response = HttpResponse(file.read(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response['Content-Disposition'] = 'attachment; filename=asset_schedule.xlsx'
+            return response
+ 
